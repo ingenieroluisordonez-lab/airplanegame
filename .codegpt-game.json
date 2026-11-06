@@ -1,0 +1,19 @@
+{
+  "name": "aviones_v1",
+  "engine": "godot",
+  "launch": {
+    "cmd": "godot",
+    "args": [
+      "--path",
+      "."
+    ]
+  },
+  "log": {
+    "stdout": true
+  },
+  "ready": "Godot Engine v",
+  "sourceRoots": [
+    "."
+  ],
+  "vars": {}
+}

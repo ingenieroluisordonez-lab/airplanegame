@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combate Aéreo — Documentación Técnica v1</title>
+<style>
+  :root {
+    --bg: #0a0e14;
+    --panel: #111820;
+    --border: #1e3a2f;
+    --accent: #0f9b58;
+    --accent2: #1ec97a;
+    --warn: #e8a020;
+    --red: #e03030;
+    --text: #cdd8d0;
+    --muted: #5a7a68;
+    --code-bg: #0d1a12;
+    --header-bg: #071210;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  header {
+    background: var(--header-bg);
+    border-bottom: 2px solid var(--accent);
+    padding: 32px 48px 24px;
+  }
+  header h1 { font-size: 2.4rem; color: var(--accent2); letter-spacing: 2px; }
+  header .sub { color: var(--muted); font-size: 0.95rem; margin-top: 6px; }
+  header .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+
+  nav {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 40px 48px; }
+
+  section { margin-bottom: 56px; }
+  h2 {
+    font-size: 1.5rem;
+    color: var(--accent2);
+    border-left: 4px solid var(--accent);
+    padding-left: 14px;
+    margin-bottom: 20px;
+  }
+  h3 { font-size: 1.1rem; color: var(--warn); margin: 24px 0 10px; }
+  h4 { font-size: 0.95rem; color: var(--accent2); margin: 16px 0 6px; }
+  p { margin-bottom: 12px; }
+  ul, ol { margin: 10px 0 10px 22px; }
+  li { margin-bottom: 5px; }
+  strong { color: var(--accent2); }
+  em { color: var(--warn); font-style: normal; }
+
+  code {
+    background: var(--code-bg);
+    color: #7ee8a2;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.88em;
+    border: 1px solid var(--border);
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 20px 22px;
+    margin: 16px 0;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.87em;
+    line-height: 1.6;
+  }
+  pre .kw  { color: #569cd6; }
+  pre .fn  { color: #dcdcaa; }
+  pre .st  { color: #ce9178; }
+  pre .cm  { color: #5a7a68; font-style: italic; }
+  pre .nm  { color: #9cdcfe; }
+  pre .nu  { color: #b5cea8; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media(max-width: 800px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .card h4 { margin-top: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9em;
+  }
+  th {
+    background: var(--panel);
+    color: var(--accent2);
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--accent);
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(15,155,88,0.05); }
+
+  .tree {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.88em;
+    line-height: 1.8;
+  }
+  .tree .dir  { color: var(--accent2); }
+  .tree .file { color: #9cdcfe; }
+  .tree .note { color: var(--muted); font-style: italic; }
+
+  .tip {
+    background: rgba(15,155,88,0.08);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+  }
+  .warn-box {
+    background: rgba(232,160,32,0.08);
+    border: 1px solid var(--warn);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    color: var(--warn);
+  }
+
+  .layer-row { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+  .layer-badge {
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    min-width: 60px;
+    text-align: center;
+  }
+  .layer-badge.red { background: var(--red); color: #fff; }
+  .layer-badge.orange { background: var(--warn); color: #000; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 48px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>✈ COMBATE AÉREO</h1>
+  <div class="sub">Documentación técnica del proyecto · Godot 4.7.2 · GDScript</div>
+  <span class="badge">aviones_v1</span>
+</header>
+
+<nav>
+  <a href="#arquitectura">Arquitectura</a>
+  <a href="#archivos">Archivos</a>
+  <a href="#objetos">Objetos</a>
+  <a href="#colisiones">Colisiones</a>
+  <a href="#hud">HUD</a>
+  <a href="#texturas">Cargar Imágenes</a>
+  <a href="#nuevo-objeto">Crear Objeto</a>
+  <a href="#controles">Controles</a>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════ ARQUITECTURA -->
+<section id="arquitectura">
+  <h2>Arquitectura General</h2>
+  <p>El juego está desarrollado íntegramente en <strong>GDScript</strong> sobre Godot 4.7.2. No usa modelos 3D externos (ni .glb, ni .fbx): toda la geometría se construye en código con meshes primitivas (<code>BoxMesh</code>, <code>SphereMesh</code>, <code>CylinderMesh</code>) e instancias de <code>MeshInstance3D</code> añadidas como nodos hijo en <code>_ready()</code>.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Flujo de juego</h4>
+      <pre>world.gd (_ready)
+  ├── Spawnea jugador ($Player)
+  ├── Spawnea 25 enemigos mixtos
+  ├── Spawnea globos, zepelines, barcos
+  ├── Conecta señales → HUD
+  └── _process: sigue cámara, respawnea
+
+player.gd (_physics_process)
+  ├── Lee teclado / joystick
+  ├── Aplica vuelo + física
+  ├── Dispara balas y misiles
+  └── Emite health_changed, score_changed
+
+bullet.gd (Area3D, _physics_process)
+  └── body_entered → take_damage()</pre>
+    </div>
+    <div class="card">
+      <h4>Señales clave</h4>
+      <table>
+        <tr><th>Señal</th><th>Origen</th><th>Destino</th></tr>
+        <tr><td><code>health_changed(int)</code></td><td>player</td><td>HUD.update_health</td></tr>
+        <tr><td><code>score_changed(int)</code></td><td>player</td><td>HUD.update_score</td></tr>
+        <tr><td><code>aircraft_destroyed</code></td><td>player</td><td>world._on_player_destroyed</td></tr>
+        <tr><td><code>destroyed(int)</code></td><td>enemies / targets</td><td>world._on_enemy_destroyed</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ ARCHIVOS -->
+<section id="archivos">
+  <h2>Estructura de Archivos</h2>
+  <div class="tree">
+<span class="dir">aviones_v1/</span>
+├── <span class="file">project.godot</span>          <span class="note">← configuración Godot</span>
+├── <span class="file">documentacion.html</span>     <span class="note">← este archivo</span>
+├── <span class="file">.codegpt-game.json</span>     <span class="note">← config de lanzamiento (Claude Code)</span>
+├── <span class="dir">assets/</span>
+│   └── <span class="dir">sounds/</span>
+│       ├── <span class="file">engine.ogg</span>
+│       ├── <span class="file">shoot.ogg</span>
+│       ├── <span class="file">shoot2.ogg</span>
+│       └── <span class="file">hit.ogg</span>
+└── <span class="dir">scenes/</span>
+    ├── <span class="dir">world/</span>           <span class="note">← escena raíz</span>
+    │   ├── <span class="file">world.tscn</span>
+    │   ├── <span class="file">world.gd</span>     <span class="note">← spawn, cámara, lógica global</span>
+    │   └── <span class="file">osm_tiles.gd</span> <span class="note">← mapa OpenStreetMap</span>
+    ├── <span class="dir">player/</span>          <span class="note">← avión del jugador</span>
+    ├── <span class="dir">enemy/</span>           <span class="note">← jet rojo (IA base)</span>
+    ├── <span class="dir">enemy_paper/</span>     <span class="note">← avión de papel</span>
+    ├── <span class="dir">enemy_biplane/</span>   <span class="note">← biplano</span>
+    ├── <span class="dir">enemy_bomber/</span>    <span class="note">← bombardero</span>
+    ├── <span class="dir">balloon/</span>         <span class="note">← globo aerostático</span>
+    ├── <span class="dir">zeppelin/</span>        <span class="note">← dirigible</span>
+    ├── <span class="dir">ship/</span>            <span class="note">← barco de guerra</span>
+    ├── <span class="dir">bullet/</span>          <span class="note">← proyectil (Area3D)</span>
+    ├── <span class="dir">missile/</span>         <span class="note">← misil guiado</span>
+    ├── <span class="dir">explosion/</span>       <span class="note">← efecto explosión</span>
+    └── <span class="dir">hud/</span>             <span class="note">← interfaz 2D (CanvasLayer)</span>
+  </div>
+  <div class="tip">
+    <strong>Convención:</strong> cada carpeta dentro de <code>scenes/</code> contiene exactamente un <code>.tscn</code> (nodo raíz + forma de colisión) y un <code>.gd</code> (lógica + modelo procedural).
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ OBJETOS -->
+<section id="objetos">
+  <h2>Objetos del Juego</h2>
+
+  <h3>Enemigos (grupo "enemy")</h3>
+  <table>
+    <tr>
+      <th>Tipo</th><th>Archivo</th><th>Vida</th><th>Pts</th><th>Velocidad</th><th>Especial</th>
+    </tr>
+    <tr>
+      <td><strong>Jet rojo</strong></td>
+      <td><code>enemy/enemy.gd</code></td>
+      <td>30</td><td>200</td><td>70</td>
+      <td>Dispara, IA con wobble suave</td>
+    </tr>
+    <tr>
+      <td><strong>Avión de papel</strong></td>
+      <td><code>enemy_paper/enemy_paper.gd</code></td>
+      <td>1</td><td>50</td><td>32</td>
+      <td>Muy errático, no dispara, muere de 1 bala</td>
+    </tr>
+    <tr>
+      <td><strong>Biplano</strong></td>
+      <td><code>enemy_biplane/enemy_biplane.gd</code></td>
+      <td>20</td><td>150</td><td>52</td>
+      <td>Madera/lona, ágil, dispara</td>
+    </tr>
+    <tr>
+      <td><strong>Bombardero</strong></td>
+      <td><code>enemy_bomber/enemy_bomber.gd</code></td>
+      <td>60</td><td>400</td><td>38</td>
+      <td>3 balas en abanico, muy lento</td>
+    </tr>
+  </table>
+
+  <h3>Objetivos estáticos (grupo "target")</h3>
+  <table>
+    <tr>
+      <th>Tipo</th><th>Archivo</th><th>Vida</th><th>Pts</th><th>Especial</th>
+    </tr>
+    <tr>
+      <td><strong>Globo aerostático</strong></td>
+      <td><code>balloon/balloon.gd</code></td>
+      <td>1</td><td>100</td>
+      <td>Colores aleatorios, deriva lenta, luz de quemador</td>
+    </tr>
+    <tr>
+      <td><strong>Dirigible</strong></td>
+      <td><code>zeppelin/zeppelin.gd</code></td>
+      <td>5</td><td>600</td>
+      <td>Se ilumina en rojo al recibir daño, 3 explosiones</td>
+    </tr>
+    <tr>
+      <td><strong>Barco</strong></td>
+      <td><code>ship/ship.gd</code></td>
+      <td>10</td><td>1000</td>
+      <td>Dispara cañón AA al jugador, 4 explosiones</td>
+    </tr>
+  </table>
+
+  <h3>Patrón take_damage()</h3>
+  <p>Todo objeto destruible implementa este método. La bala y el misil lo llaman automáticamente:</p>
+  <pre><span class="kw">func</span> <span class="fn">take_damage</span>(<span class="nm">amount</span>: <span class="kw">int</span>) -> <span class="kw">void</span>:
+    health -= amount
+    <span class="kw">if</span> health <= <span class="nu">0</span>:
+        <span class="cm"># Crear explosión</span>
+        <span class="kw">var</span> <span class="nm">exp</span> := explosion_scene.instantiate()
+        get_tree().root.add_child(exp)
+        exp.global_position = global_position
+        <span class="cm"># Emitir señal para sumar puntos</span>
+        destroyed.emit(score_value)
+        queue_free()</pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════ COLISIONES -->
+<section id="colisiones">
+  <h2>Sistema de Colisiones</h2>
+  <p>Godot 4 usa capas numéricas (1–32). Este proyecto usa 3 capas:</p>
+
+  <div style="margin: 20px 0;">
+    <div class="layer-row">
+      <span class="layer-badge">Capa 1</span>
+      <span><strong>Jugador</strong> — CharacterBody3D del player</span>
+    </div>
+    <div class="layer-row">
+      <span class="layer-badge">Capa 2</span>
+      <span><strong>Enemigos y objetivos</strong> — todos los CharacterBody3D destructibles</span>
+    </div>
+    <div class="layer-row">
+      <span class="layer-badge orange">Capa 4</span>
+      <span><strong>Balas</strong> — Area3D que detecta capas 1 y 2 (máscara = 3)</span>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>En el .tscn (enemigo)</h4>
+      <pre>[node name="Enemy" type="CharacterBody3D"]
+collision_layer = <span class="nu">2</span>
+collision_mask  = <span class="nu">1</span></pre>
+    </div>
+    <div class="card">
+      <h4>En el .tscn (bala)</h4>
+      <pre>[node name="Bullet" type="Area3D"]
+collision_layer = <span class="nu">4</span>
+collision_mask  = <span class="nu">3</span>  <span class="cm">← capas 1 + 2</span></pre>
+    </div>
+  </div>
+
+  <h3>Grupos usados en código</h3>
+  <table>
+    <tr><th>Grupo</th><th>Quiénes</th><th>Usado en</th></tr>
+    <tr><td><code>"player"</code></td><td>El jugador</td><td>Buscar jugador desde HUD, misiles, barcos</td></tr>
+    <tr><td><code>"enemy"</code></td><td>Todos los aviones enemigos</td><td>Radar, lock-on, balas, misiles</td></tr>
+    <tr><td><code>"target"</code></td><td>Globos, zepelines, barcos</td><td>Balas del jugador, misiles, lock-on</td></tr>
+    <tr><td><code>"osm_tiles"</code></td><td>El sistema de mapa</td><td>HUD para LAT/LON</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════════════════════════════════════ HUD -->
+<section id="hud">
+  <h2>Interfaz (HUD)</h2>
+  <p>El HUD es un <code>CanvasLayer</code> con 6 clases internas que dibujan con la API <code>_draw()</code>:</p>
+
+  <div class="grid3">
+    <div class="card">
+      <h4>AttitudeIndicator</h4>
+      <p>Horizonte artificial. Usa algoritmo Sutherland-Hodgman para clipear cielo/tierra al rect del control.</p>
+    </div>
+    <div class="card">
+      <h4>SpeedTape</h4>
+      <p>Cinta de velocidad IAS en km/h con caja de valor actual.</p>
+    </div>
+    <div class="card">
+      <h4>AltitudeTape</h4>
+      <p>Cinta de altitud en metros con variación vertical (▲▼).</p>
+    </div>
+    <div class="card">
+      <h4>ThrottleGauge</h4>
+      <p>Medidor circular de motor (verde → naranja → rojo).</p>
+    </div>
+    <div class="card">
+      <h4>CompassDisplay</h4>
+      <p>Brújula horizontal con rumbos cardinales animados.</p>
+    </div>
+    <div class="card">
+      <h4>RadarDisplay</h4>
+      <p>Radar circular. Muestra enemigos como puntos rojos orientados al jugador.</p>
+    </div>
+  </div>
+
+  <h3>API pública del HUD</h3>
+  <pre><span class="cm"># Llamadas desde world.gd / player.gd</span>
+$HUD.update_health(<span class="nm">value</span>: <span class="kw">int</span>)   <span class="cm"># barra de vida (0-100)</span>
+$HUD.update_score(<span class="nm">value</span>: <span class="kw">int</span>)    <span class="cm"># puntuación total</span>
+$HUD.update_kills(<span class="nm">value</span>: <span class="kw">int</span>)    <span class="cm"># contador destruidos</span>
+$HUD.show_game_over()             <span class="cm"># pantalla DERRIBADO</span></pre>
+
+  <h3>Tecla especial</h3>
+  <p><strong>P</strong> — silenciar/activar audio (<code>AudioServer.set_bus_volume_db</code>)</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════ TEXTURAS -->
+<section id="texturas">
+  <h2>Cargar Imágenes y Texturas</h2>
+  <p>Godot 4 importa automáticamente cualquier imagen en <code>res://</code>. Coloca tus archivos PNG/JPG en <code>assets/textures/</code> y úsalos así:</p>
+
+  <h3>1. Textura sobre un material (lo más común)</h3>
+  <pre><span class="kw">func</span> <span class="fn">_build_model</span>() -> <span class="kw">void</span>:
+    <span class="cm"># Cargar imagen como textura</span>
+    <span class="kw">var</span> <span class="nm">tex</span> := load(<span class="st">"res://assets/textures/tanque.png"</span>) <span class="kw">as</span> Texture2D
+
+    <span class="kw">var</span> <span class="nm">mat</span> := StandardMaterial3D.new()
+    mat.albedo_texture = tex      <span class="cm"># imagen como color base</span>
+    mat.roughness      = <span class="nu">0.85</span>
+
+    <span class="kw">var</span> <span class="nm">mi</span> := MeshInstance3D.new()
+    <span class="kw">var</span> <span class="nm">bm</span> := BoxMesh.new()
+    bm.size = Vector3(<span class="nu">5</span>, <span class="nu">5</span>, <span class="nu">5</span>)
+    mi.mesh = bm
+    mi.set_surface_override_material(<span class="nu">0</span>, mat)
+    add_child(mi)</pre>
+
+  <h3>2. Imagen como ícono en el HUD (2D)</h3>
+  <pre><span class="kw">var</span> <span class="nm">img_rect</span> := TextureRect.new()
+img_rect.texture  = load(<span class="st">"res://assets/ui/icono_objetivo.png"</span>) <span class="kw">as</span> Texture2D
+img_rect.size     = Vector2(<span class="nu">48</span>, <span class="nu">48</span>)
+img_rect.position = Vector2(<span class="nu">20</span>, <span class="nu">20</span>)
+add_child(img_rect)</pre>
+
+  <h3>3. Cargar desde disco en tiempo real</h3>
+  <pre><span class="cm"># Para imágenes fuera del proyecto (ruta absoluta)</span>
+<span class="kw">var</span> <span class="nm">img</span> := Image.load_from_file(<span class="st">"C:/fotos/objetivo.png"</span>)
+<span class="kw">if</span> img:
+    <span class="kw">var</span> <span class="nm">tex</span> := ImageTexture.create_from_image(img)
+    mat.albedo_texture = tex</pre>
+
+  <h3>4. Sprite 3D (imagen plana en el mundo 3D)</h3>
+  <pre><span class="cm"># Útil para carteles, señales, objetivos 2D en el mundo</span>
+<span class="kw">var</span> <span class="nm">sprite</span> := Sprite3D.new()
+sprite.texture  = load(<span class="st">"res://assets/textures/diana.png"</span>) <span class="kw">as</span> Texture2D
+sprite.pixel_size = <span class="nu">0.05</span>   <span class="cm"># tamaño en unidades del mundo</span>
+sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED  <span class="cm"># siempre mira a la cámara</span>
+add_child(sprite)</pre>
+
+  <div class="tip">
+    <strong>Formatos soportados:</strong> PNG, JPG, WebP, BMP, TGA, SVG.<br>
+    <strong>Recomendado:</strong> PNG con transparencia para sprites, JPG para texturas grandes.<br>
+    <strong>Tamaño:</strong> potencia de 2 (256×256, 512×512, 1024×1024) para mejor rendimiento.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ NUEVO OBJETO -->
+<section id="nuevo-objeto">
+  <h2>Cómo Crear un Nuevo Objeto Destruible</h2>
+  <p>Ejemplo: agregar un <strong>tanque</strong> en tierra como objetivo.</p>
+
+  <h3>Paso 1 — Crear la carpeta y el .gd</h3>
+  <pre><span class="cm"># scenes/tank/tank.gd</span>
+<span class="kw">extends</span> CharacterBody3D
+
+<span class="kw">@export var</span> <span class="nm">health</span>      : <span class="kw">int</span>   = <span class="nu">8</span>
+<span class="kw">@export var</span> <span class="nm">score_value</span>: <span class="kw">int</span>   = <span class="nu">300</span>
+
+<span class="kw">var</span> <span class="nm">explosion_scene</span> := preload(<span class="st">"res://scenes/explosion/explosion.tscn"</span>)
+<span class="nm">signal</span> <span class="fn">destroyed</span>(score: <span class="kw">int</span>)
+
+<span class="kw">func</span> <span class="fn">_ready</span>() -> <span class="kw">void</span>:
+    add_to_group(<span class="st">"target"</span>)   <span class="cm"># ← clave: usar "target" para ser detectado</span>
+    _build_model()
+
+<span class="kw">func</span> <span class="fn">take_damage</span>(<span class="nm">amount</span>: <span class="kw">int</span>) -> <span class="kw">void</span>:
+    health -= amount
+    <span class="kw">if</span> health <= <span class="nu">0</span>:
+        <span class="kw">var</span> <span class="nm">exp</span> := explosion_scene.instantiate()
+        get_tree().root.add_child(exp)
+        exp.global_position = global_position
+        destroyed.emit(score_value)
+        queue_free()
+
+<span class="kw">func</span> <span class="fn">_build_model</span>() -> <span class="kw">void</span>:
+    <span class="kw">var</span> <span class="nm">mat</span> := StandardMaterial3D.new()
+    mat.albedo_color = Color(<span class="nu">0.3</span>, <span class="nu">0.35</span>, <span class="nu">0.2</span>)   <span class="cm"># verde militar</span>
+    mat.roughness    = <span class="nu">0.85</span>
+    <span class="cm"># O cargar textura:</span>
+    <span class="cm"># mat.albedo_texture = load("res://assets/textures/camuflaje.png")</span>
+
+    <span class="kw">var</span> <span class="nm">mi</span> := MeshInstance3D.new()
+    <span class="kw">var</span> <span class="nm">bm</span> := BoxMesh.new()
+    bm.size = Vector3(<span class="nu">5</span>, <span class="nu">3</span>, <span class="nu">9</span>)
+    mi.mesh = bm
+    mi.set_surface_override_material(<span class="nu">0</span>, mat)
+    add_child(mi)</pre>
+
+  <h3>Paso 2 — Crear el .tscn</h3>
+  <pre><span class="cm"># scenes/tank/tank.tscn</span>
+[gd_scene format=<span class="nu">3</span> uid=<span class="st">"uid://tank000001"</span>]
+
+[ext_resource type=<span class="st">"Script"</span> path=<span class="st">"res://scenes/tank/tank.gd"</span> id=<span class="st">"1_tank"</span>]
+
+[sub_resource type=<span class="st">"BoxShape3D"</span> id=<span class="st">"BoxShape_col"</span>]
+size = Vector3(<span class="nu">5.0, 3.0, 9.0</span>)
+
+[node name=<span class="st">"Tank"</span> type=<span class="st">"CharacterBody3D"</span>]
+collision_layer = <span class="nu">2</span>
+collision_mask  = <span class="nu">1</span>
+script = ExtResource(<span class="st">"1_tank"</span>)
+
+[node name=<span class="st">"CollisionShape3D"</span> type=<span class="st">"CollisionShape3D"</span> parent=<span class="st">"."</span>]
+shape = SubResource(<span class="st">"BoxShape_col"</span>)</pre>
+
+  <h3>Paso 3 — Registrar en world.gd</h3>
+  <pre><span class="cm"># Al inicio de world.gd:</span>
+<span class="kw">var</span> <span class="nm">tank_scene</span> := preload(<span class="st">"res://scenes/tank/tank.tscn"</span>)
+
+<span class="cm"># En _ready():</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="nu">5</span>:
+    _spawn_tank()
+
+<span class="cm"># Nueva función:</span>
+<span class="kw">func</span> <span class="fn">_spawn_tank</span>() -> <span class="kw">void</span>:
+    <span class="kw">var</span> <span class="nm">t</span> : Node3D = tank_scene.instantiate()
+    add_child(t)
+    t.global_position = Vector3(
+        randf_range(-<span class="nu">500</span>, <span class="nu">500</span>), <span class="nu">3.5</span>,
+        randf_range(-<span class="nu">500</span>, <span class="nu">500</span>))
+    t.destroyed.connect(_on_target_destroyed)</pre>
+
+  <div class="warn-box">
+    ⚠ Recuerda siempre <code>add_to_group("target")</code> en <code>_ready()</code> para que las balas del jugador y los misiles puedan detectarlo.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CONTROLES -->
+<section id="controles">
+  <h2>Controles</h2>
+  <div class="grid2">
+    <div class="card">
+      <h4>Vuelo (teclado)</h4>
+      <table>
+        <tr><th>Tecla</th><th>Acción</th></tr>
+        <tr><td><code>Enter / Espacio</code></td><td>Arrancar motor</td></tr>
+        <tr><td><code>↑ ↓</code></td><td>Cabeceo (pitch)</td></tr>
+        <tr><td><code>← →</code></td><td>Alabeo (roll)</td></tr>
+        <tr><td><code>Q / E</code></td><td>Guiñada (yaw)</td></tr>
+        <tr><td><code>W / RePág</code></td><td>Aumentar gases</td></tr>
+        <tr><td><code>S / AvPág</code></td><td>Reducir gases</td></tr>
+        <tr><td><code>F</code></td><td>Boost de gases</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h4>Armas y sistema</h4>
+      <table>
+        <tr><th>Tecla</th><th>Acción</th></tr>
+        <tr><td><code>Espacio</code></td><td>Disparar cañón</td></tr>
+        <tr><td><code>M</code></td><td>Lanzar misil</td></tr>
+        <tr><td><code>P</code></td><td>Silenciar / activar audio</td></tr>
+      </table>
+      <h4 style="margin-top:16px">Parámetros ajustables (player.gd)</h4>
+      <table>
+        <tr><th>Variable</th><th>Por defecto</th></tr>
+        <tr><td><code>max_speed</code></td><td>250</td></tr>
+        <tr><td><code>min_speed</code></td><td>45</td></tr>
+        <tr><td><code>pitch_rate</code></td><td>1.3</td></tr>
+        <tr><td><code>roll_rate</code></td><td>2.2</td></tr>
+        <tr><td><code>max_missiles</code></td><td>4</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3>Para crear un nuevo juego</h3>
+  <ol>
+    <li>Copia la carpeta <code>aviones_v1/</code> completa a <code>juego_nuevo/</code></li>
+    <li>Abre <code>project.godot</code> con Godot o edita <code>config/name</code></li>
+    <li>Modifica las escenas en <code>scenes/world/</code> como punto de partida</li>
+    <li>Reutiliza <code>explosion/</code>, <code>bullet/</code>, <code>missile/</code> — son genéricos</li>
+  </ol>
+</section>
+
+</main>
+
+<footer>
+</footer>
+
+</body>
+</html>

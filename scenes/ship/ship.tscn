@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://ship000001"]
+
+[ext_resource type="Script" path="res://scenes/ship/ship.gd" id="1_ship"]
+
+[sub_resource type="BoxShape3D" id="BoxShape_col"]
+size = Vector3(18.0, 20.0, 50.0)
+
+[node name="Ship" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_ship")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape_col")

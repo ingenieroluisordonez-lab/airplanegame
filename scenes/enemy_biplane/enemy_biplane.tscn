@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://ebiplane001"]
+
+[ext_resource type="Script" path="res://scenes/enemy_biplane/enemy_biplane.gd" id="1_ebiplane"]
+
+[sub_resource type="BoxShape3D" id="BoxShape_col"]
+size = Vector3(16.0, 3.0, 9.0)
+
+[node name="EnemyBiplane" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_ebiplane")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape_col")

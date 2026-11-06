@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://ebomber001"]
+
+[ext_resource type="Script" path="res://scenes/enemy_bomber/enemy_bomber.gd" id="1_ebomber"]
+
+[sub_resource type="BoxShape3D" id="BoxShape_col"]
+size = Vector3(30.0, 4.0, 18.0)
+
+[node name="EnemyBomber" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_ebomber")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape_col")

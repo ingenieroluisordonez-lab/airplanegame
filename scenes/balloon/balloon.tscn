@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://balloon0001"]
+
+[ext_resource type="Script" path="res://scenes/balloon/balloon.gd" id="1_balloon"]
+
+[sub_resource type="SphereShape3D" id="SphereShape_col"]
+radius = 6.0
+
+[node name="Balloon" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_balloon")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape_col")

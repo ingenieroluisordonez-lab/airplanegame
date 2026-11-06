@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://epaper0001"]
+
+[ext_resource type="Script" path="res://scenes/enemy_paper/enemy_paper.gd" id="1_epaper"]
+
+[sub_resource type="BoxShape3D" id="BoxShape_col"]
+size = Vector3(10.0, 1.5, 8.0)
+
+[node name="EnemyPaper" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_epaper")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape_col")
