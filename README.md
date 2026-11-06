@@ -1,35 +1,103 @@
-Combate Aéreo v1
-Juego de acción aérea en 3D construido íntegramente en Godot 4 con GDScript. Toda la geometría se genera en código —sin modelos externos ni assets de arte— combinando primitivas (BoxMesh, SphereMesh, CylinderMesh) para construir aviones, barcos y objetivos detallados en tiempo de ejecución.
+# ✈ Combate Aéreo v1
 
-Características
-4 tipos de enemigos con IA independiente: jet, avión de papel, biplano y bombardero
+Juego de acción aérea en 3D construido íntegramente en **Godot 4** con **GDScript**. Toda la geometría se genera en código — sin modelos externos ni assets de arte — usando primitivas combinadas para construir aviones, barcos y objetivos detallados en tiempo de ejecución.
 
-Objetivos destruibles: globos aerostáticos, dirigibles y barcos de guerra
+## Sobre el proyecto
 
-HUD tipo EFIS: horizonte artificial, cintas de velocidad/altitud, brújula y radar
-
-Sistema de armas: cañón y misiles guiados con lock-on
-
-Mapa de terreno real vía tiles de OpenStreetMap
-
-Soporte para teclado y joystick
-
-Stack: Godot 4 · GDScript · Sin dependencias externas
-
-Sobre el proyecto
 Este proyecto nació como un experimento para darle uso a un joystick que tenía guardado y, sobre todo, por curiosidad: descubrir hasta dónde se puede llegar con las herramientas de un motor como Godot, divirtiéndome un rato mientras practicaba otro lenguaje y exploraba las capacidades de la generación de geometría procedural. No es un proyecto comercial ni busca serlo — es un banco de pruebas personal que terminó siendo un juego completo.
 
-Cambios principales que hice
-Eliminé la versión 4.7.2: Godot 4.7 no existe (la rama actual es 4.x, con 4.3/4.4 como últimas estables). Poner una versión inexistente resta credibilidad; dejé Godot 4.
+---
 
-Corregí "avision" → "generación de geometría procedural" y reescribí la sección de motivación para que suene intencional y no a borrador.
+## Capturas de pantalla
 
-Añadí encabezados Markdown (##) para que el README se renderice bien en GitHub/GitLab.
+### Pista de despegue con enemigos
+![Pista con enemigos](screenshots/01_pista_enemigos.png)
+> Vista desde la pista. Enemigos de varios tipos aproximándose: jets rojos, biplanos y barco al fondo.
 
-Moví el "Stack" al final de las características, donde encaja mejor.
+### Tipos de enemigos en vuelo
+![Tipos de enemigos](screenshots/02_tipos_enemigos.png)
+> Bombardero (verde, gran envergadura), biplano (marrón, dos alas) y jets rojos atacando simultáneamente.
 
-Añadí una sección "Sobre el proyecto" que rescata tu idea original (joystick, curiosidad, práctica) pero redactada con claridad y sin errores.
+### Aviones de papel
+![Aviones de papel](screenshots/03_aviones_papel.png)
+> Los aviones de papel vuelan de forma muy errática y caen con un solo disparo.
 
-Formato consistente: negritas para términos clave y bullets homogéneos.
+---
 
-Si quieres, puedo dejarte también una versión en inglés del README (útil para repos públicos) o un LICENSE/.gitignore de Godot que complemente el repo.
+## Cómo se juega
+
+1. **Arrancar el motor** — presiona `Enter` o `Espacio` al inicio
+2. **Despegar** — aumenta gases con `W` hasta superar la velocidad de despegue (~65 km/h)
+3. **Volar** — usa las flechas para rotar el avión, `Q/E` para guiñada
+4. **Disparar** — `Espacio` activa el cañón automático
+5. **Misiles** — mantén un enemigo en pantalla para hacer lock-on, luego `M` para lanzar
+6. **Sobrevivir** — el barco dispara de vuelta, los bombarderos sueltan ráfagas de 3 balas
+7. **Puntuación** — destruye el mayor número de objetivos antes de ser derribado
+
+---
+
+## Características
+
+- **4 tipos de enemigos** con IA independiente: jet rojo, avión de papel, biplano y bombardero
+- **Objetivos destruibles**: globos aerostáticos, dirigibles y barcos de guerra con cañón AA
+- **HUD tipo EFIS** con horizonte artificial, cintas de velocidad/altitud, brújula y radar
+- **Sistema de armas**: cañón automático y misiles guiados con lock-on
+- **Mapa de terreno real** vía tiles OpenStreetMap en tiempo real
+- **Soporte para teclado y joystick** (AV8R-01 y compatibles)
+- **Contador de destruidos** y sistema de puntuación
+
+---
+
+## Controles
+
+| Tecla | Acción |
+|-------|--------|
+| `Enter` / `Espacio` | Arrancar motor |
+| `↑ ↓` | Cabeceo (pitch) |
+| `← →` | Alabeo (roll) |
+| `Q / E` | Guiñada (yaw) |
+| `W` / `RePág` | Aumentar gases |
+| `S` / `AvPág` | Reducir gases |
+| `F` | Boost de gases |
+| `Espacio` | Disparar cañón |
+| `M` | Lanzar misil |
+| `P` | Silenciar / activar audio |
+
+---
+
+## Enemigos y objetivos
+
+| Tipo | Vida | Puntos | Notas |
+|------|------|--------|-------|
+| Jet rojo | 30 | 200 | Dispara, IA con wobble |
+| Avión de papel | 1 | 50 | Muy errático, no dispara |
+| Biplano | 20 | 150 | Ágil, dispara |
+| Bombardero | 60 | 400 | 3 balas en abanico, lento |
+| Globo aerostático | 1 | 100 | Deriva lenta, colores aleatorios |
+| Dirigible | 5 | 600 | Se ilumina al recibir daño |
+| Barco de guerra | 10 | 1000 | Dispara cañón AA al jugador |
+
+---
+
+## Requisitos
+
+- [Godot 4](https://godotengine.org/download/)
+- Windows / Linux / macOS
+
+## Cómo ejecutar
+
+```bash
+git clone https://github.com/ingenieroluisordonez-lab/airplanegame.git
+cd airplanegame
+godot --path .
+```
+
+O abre `project.godot` directamente con el editor de Godot.
+
+---
+
+## Stack
+
+**Godot 4 · GDScript · Sin dependencias externas**
+
+Geometría 100% procedural con `BoxMesh`, `SphereMesh` y `CylinderMesh`. Audio cargado desde archivos `.ogg`. Mapa OSM via HTTP requests a tile servers públicos.

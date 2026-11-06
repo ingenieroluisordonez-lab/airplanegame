@@ -1,0 +1,14 @@
+# Godot cache
+.godot/
+*.translation
+
+# Importados generados
+*.import
+
+# Ejecutable del motor (no va en git)
+Godot_v*.exe
+Godot_v*.zip
+
+# OS
+.DS_Store
+Thumbs.db
